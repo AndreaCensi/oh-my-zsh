@@ -16,11 +16,14 @@ ZSH_THEME_TERM_TITLE_IDLE="%n@%m: %~"
 
 #Appears when you have the prompt
 function precmd {
-  title $ZSH_THEME_TERM_TAB_TITLE_IDLE $ZSH_THEME_TERM_TITLE_IDLE
+#  title $ZSH_THEME_TERM_TAB_TITLE_IDLE $ZSH_THEME_TERM_TITLE_IDLE
+    title "$MY_TERM_TITLE" "$MY_TERM_TITLE"
 }
 
 #Appears at the beginning of (and during) of command execution
 function preexec {
   local CMD=${1[(wr)^(*=*|sudo|ssh|-*)]} #cmd name only, or if this is sudo or ssh, the next cmd
-  title "$CMD" "%100>...>$2%<<"
+#  title "$CMD" "%100>...>$2%<<"
+
+    title "$MY_TERM_TITLE" "$MY_TERM_TITLE"
 }
