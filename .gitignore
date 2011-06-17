@@ -4,3 +4,6 @@ log/.zsh_history
 projects.zsh
 custom/*
 !custom/example.zshcache
+!custom/example
+!custom/example.zsh
+cache
