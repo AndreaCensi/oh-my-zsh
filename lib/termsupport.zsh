@@ -9,6 +9,9 @@ function title {
     print -Pn "\e]2;$2\a" #set window name
     print -Pn "\e]1;$1\a" #set icon (=tab) name (will override window name on broken terminal)
   fi
+  
+   # print -Pn "\e]1;$2\a"
+   # print -Pn "\e]1;$1\a"
 }
 
 ZSH_THEME_TERM_TAB_TITLE_IDLE="%15<..<%~%<<" #15 char left truncated PWD
