@@ -7,9 +7,9 @@ function title {
   if [[ "$TERM" == screen* ]]; then 
     print -Pn "\ek$1\e\\" #set screen hardstatus, usually truncated at 20 chars
     
-    print -Pn "\e]0;M0\a"
-    print -Pn "\e]1;M1\a"
-    print -Pn "\e]2;M2\a"
+    #print -Pn "\e]0;M0\a"
+    print -Pn "\e]1;$MY_TERM_TITLE|$1\a"
+    #print -Pn "\e]2;M2\a"
   elif [[ ($TERM == xterm*) ]] || [[ ($TERM == "xterm-color") ]] || [[ ($TERM == "rxvt") ]] || [[ "$TERM_PROGRAM" == "iTerm.app" ]]; then
     print -Pn "\e]2;$2\a" #set window name
     print -Pn "\e]1;$1\a" #set icon (=tab) name (will override window name on broken terminal)
