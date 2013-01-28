@@ -23,7 +23,7 @@ ZSH_THEME_TERM_TAB_TITLE_IDLE="%15<..<%~%<<" #15 char left truncated PWD
 ZSH_THEME_TERM_TITLE_IDLE="%n@%m: %~"
  # local SHORT_PWD="%8<..<%~%<<" #15 char left truncated PWD
 
-function precmd {
+function ac_precmd {
   local SHORT_PWD=`basename $PWD`
   
   if [[ "$TERM" == screen* ]]; then 
@@ -38,7 +38,7 @@ function topic {
     export TERM_TOPIC="$1|"
 }
 
-function preexec {
+function ac_preexec {
     emulate -L zsh
     setopt extended_glob
     local CMD=${1[(wr)^(*=*|sudo|ssh|-*)]} #cmd name only, or if this is sudo or ssh, the next cmd
@@ -51,4 +51,21 @@ function preexec {
         title "$MY_TERM_TITLE:$SHORT_PWD:$CMD" "$MY_TERM_TITLE:$SHORT_PWD:$CMD"
     fi
 
+#Appears when you have the prompt
+function omz_termsupport_precmd {
+  title $ZSH_THEME_TERM_TAB_TITLE_IDLE $ZSH_THEME_TERM_TITLE_IDLE
 }
+
+#Appears at the beginning of (and during) of command execution
+function omz_termsupport_preexec {
+  emulate -L zsh
+  setopt extended_glob
+  local CMD=${1[(wr)^(*=*|sudo|ssh|rake|-*)]} #cmd name only, or if this is sudo or ssh, the next cmd
+  title "$CMD" "%100>...>${2:gs/%/%%}%<<"
+}
+
+autoload -U add-zsh-hook
+# add-zsh-hook precmd  omz_termsupport_precmd
+# add-zsh-hook preexec omz_termsupport_preexec
+add-zsh-hook precmd  ac_precmd
+add-zsh-hook preexec ac_preexec
