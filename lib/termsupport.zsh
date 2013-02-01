@@ -50,6 +50,7 @@ function ac_preexec {
     elif [[ ($TERM == xterm*) ]]; then
         title "$MY_TERM_TITLE:$SHORT_PWD:$CMD" "$MY_TERM_TITLE:$SHORT_PWD:$CMD"
     fi
+}
 
 #Appears when you have the prompt
 function omz_termsupport_precmd {
@@ -67,5 +68,5 @@ function omz_termsupport_preexec {
 autoload -U add-zsh-hook
 # add-zsh-hook precmd  omz_termsupport_precmd
 # add-zsh-hook preexec omz_termsupport_preexec
-add-zsh-hook precmd  ac_precmd
+add-zsh-hook precmd ac_precmd
 add-zsh-hook preexec ac_preexec
