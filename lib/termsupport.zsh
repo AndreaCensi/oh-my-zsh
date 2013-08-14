@@ -3,16 +3,22 @@
 #Fully support screen, iterm, and probably most modern xterm and rxvt
 #Limited support for Apple Terminal (Terminal can't set window or tab separately)
 function title {
-  #echo "My term: $TERM ; title: $1"
+  if [[ "$DISABLE_AUTO_TITLE" == "true" ]] || [[ "$EMACS" == *term* ]]; then
+    return
+  fi
   if [[ "$TERM" == screen* ]]; then 
     print -Pn "\ek$1\e\\" #set screen hardstatus, usually truncated at 20 chars
-    
-    #print -Pn "\e]0;M0\a"
     print -Pn "\e]1;$MY_TERM_TITLE|$1\a"
-    #print -Pn "\e]2;M2\a"
   elif [[ ($TERM == xterm*) ]] || [[ ($TERM == "xterm-color") ]] || [[ ($TERM == "rxvt") ]] || [[ "$TERM_PROGRAM" == "iTerm.app" ]]; then
     print -Pn "\e]2;$2\a" #set window name
     print -Pn "\e]1;$1\a" #set icon (=tab) name (will override window name on broken terminal)
+
+#  if [[ "$TERM" == screen* ]]; then
+#    print -Pn "\ek$1:q\e\\" #set screen hardstatus, usually truncated at 20 chars
+#  elif [[ "$TERM" == xterm* ]] || [[ $TERM == rxvt* ]] || [[ $TERM == ansi ]] || [[ "$TERM_PROGRAM" == "iTerm.app" ]]; then
+#    print -Pn "\e]2;$2:q\a" #set window name
+#    print -Pn "\e]1;$1:q\a" #set icon (=tab) name (will override window name on broken terminal)
+#
   fi
   
    # print -Pn "\e]1;$2\a"
@@ -62,7 +68,9 @@ function omz_termsupport_preexec {
   emulate -L zsh
   setopt extended_glob
   local CMD=${1[(wr)^(*=*|sudo|ssh|rake|-*)]} #cmd name only, or if this is sudo or ssh, the next cmd
-  title "$CMD" "%100>...>${2:gs/%/%%}%<<"
+  local LINE="${2:gs/$/\\$}"
+  LINE="${LINE:gs/%/%%}"
+  title "$CMD" "%100>...>$LINE%<<"
 }
 
 autoload -U add-zsh-hook
