@@ -10,6 +10,13 @@
 function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
+if [ "x${VIRTUAL_ENV}" != x ] ; then
+    venv=`basename \`dirname \"$VIRTUAL_ENV\"\``
+    venv=$VIRTUAL_ENV
+else
+    venv="-"
+fi
+venv=""
 
 # Directory info.
 local current_dir='${PWD/#$HOME/~}'
@@ -28,5 +35,5 @@ PROMPT="
 @\
 $(box_name) \
 : \
-${current_dir}%{$reset_color%}
+${current_dir}%{$reset_color%} ${venv}
 $ %{$reset_color%}"
